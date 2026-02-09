@@ -1,9 +1,13 @@
 #include <Arduino.h>
+#include <SimpleDHT.h>
 
 const uint8_t FLAME_SENSOR_PINS[] = {9, 10, 11, 12, 13};
 
 const uint8_t GAS_SENSOR_DIGITAL_PIN = 8;
 const uint8_t GAS_SENSOR_ANALOG_PIN = A0;
+
+const uint8_t DHT_SENSOR_PIN = 7;
+SimpleDHT11 dht11(DHT_SENSOR_PIN);
 
 uint8_t getFlameSensorData()
 {
@@ -16,6 +20,18 @@ uint8_t getFlameSensorData()
     }
   }
   return 0; // No flame detected
+}
+
+uint8_t getDHTSensorReading(float *temperature, float *humidity)
+{
+  byte data[40] = {0};
+  int result = dht11.read2(temperature, humidity, data);
+
+  if (result != SimpleDHTErrSuccess)
+  {
+    return 0;
+  }
+  return 1;
 }
 
 void setup()
@@ -32,13 +48,27 @@ void setup()
 
 void loop()
 {
-  uint8_t flameDetected = getFlameSensorData();
+  float temperature = 0.0f;
+  float humidity = 0.0f;
 
   uint8_t gasSensorDigitalValue = digitalRead(GAS_SENSOR_DIGITAL_PIN);
-
   uint16_t gasSensorAnalogValue = analogRead(GAS_SENSOR_ANALOG_PIN);
+
+  uint8_t flameDetected = getFlameSensorData();
+  uint8_t hasDHTReading = getDHTSensorReading(&temperature, &humidity);
 
   Serial.println("flameDetected=" + String(flameDetected));
   Serial.println("gasDetected=" + String(gasSensorDigitalValue));
   Serial.println("gasSensorValue=" + String(gasSensorAnalogValue));
+
+  if (hasDHTReading)
+  {
+    Serial.println("temperature=" + String(temperature));
+    Serial.println("humidity=" + String(humidity));
+  }
+  else
+  {
+    Serial.println("temperature=error");
+    Serial.println("humidity=error");
+  }
 }
