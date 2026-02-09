@@ -1,4 +1,4 @@
-# Firecon (Arduino Nano Sensor Reader)
+# Firecon (Arduino NANO)
 
 Arduino Nano firmware that reads flame, gas, and temperature/humidity sensors and publishes the readings over UART (Serial) for an ESP32 to consume. The ESP32 side handles GPS and alerting to external services. This repository contains **only** the Arduino Nano sensor reader.
 
