@@ -38,4 +38,6 @@ void loop()
     Serial.println("temperature=error");
     Serial.println("humidity=error");
   }
+
+  delay(1000);
 }
