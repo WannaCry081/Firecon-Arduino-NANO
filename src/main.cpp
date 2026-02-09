@@ -63,6 +63,7 @@ void setup()
     pinMode(flameSensorPin, INPUT_PULLUP);
   }
 
+  // TODO: Test if pullup is needed for the gas sensor. If not, change to INPUT.
   pinMode(GAS_SENSOR_DIGITAL_PIN, INPUT_PULLUP);
 }
 
