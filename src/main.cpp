@@ -9,7 +9,7 @@ const uint8_t GAS_SENSOR_ANALOG_PIN = A0;
 const uint8_t DHT_SENSOR_PIN = 7;
 SimpleDHT11 dht11(DHT_SENSOR_PIN);
 
-uint8_t getFlameSensorData()
+uint8_t getFlameSensorReading()
 {
   for (uint8_t flameSensorPin : FLAME_SENSOR_PINS)
   {
@@ -54,7 +54,7 @@ void loop()
   uint8_t gasSensorDigitalValue = digitalRead(GAS_SENSOR_DIGITAL_PIN);
   uint16_t gasSensorAnalogValue = analogRead(GAS_SENSOR_ANALOG_PIN);
 
-  uint8_t flameDetected = getFlameSensorData();
+  uint8_t flameDetected = getFlameSensorReading();
   uint8_t hasDHTReading = getDHTSensorReading(&temperature, &humidity);
 
   Serial.println("flameDetected=" + String(flameDetected));
