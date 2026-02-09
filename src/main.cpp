@@ -1,18 +1,30 @@
 #include <Arduino.h>
 
-// put function declarations here:
-int myFunction(int, int);
+const uint8_t FLAME_SENSOR_PINS[] = {9, 10, 11, 12, 13};
 
-void setup() {
-  // put your setup code here, to run once:
-  int result = myFunction(2, 3);
+boolean getFlameSensorData()
+{
+  for (uint8_t flameSensorPin : FLAME_SENSOR_PINS)
+  {
+    uint8_t sensorValue = digitalRead(flameSensorPin);
+    if (sensorValue == LOW)
+    {
+      return true; // Flame detected
+    }
+  }
+  return false; // No flame detected
 }
 
-void loop() {
-  // put your main code here, to run repeatedly:
+void setup()
+{
+  for (uint8_t flameSensorPin : FLAME_SENSOR_PINS)
+  {
+    pinMode(flameSensorPin, INPUT_PULLUP);
+  }
 }
 
-// put function definitions here:
-int myFunction(int x, int y) {
-  return x + y;
+void loop()
+{
+  boolean flameDetected = getFlameSensorData();
+  Serial.println("Flame detected: " + String(flameDetected));
 }
