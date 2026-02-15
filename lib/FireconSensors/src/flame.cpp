@@ -2,7 +2,7 @@
 
 namespace
 {
-  const uint8_t FLAME_SENSOR_PINS[] = {9, 10, 11, 12, 13};
+  const uint8_t FLAME_SENSOR_PINS[] = {6, 7, 8, 9};
 }
 
 void initFlameSensors()
