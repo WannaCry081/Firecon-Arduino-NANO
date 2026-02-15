@@ -4,7 +4,7 @@
 
 namespace
 {
-  const uint8_t DHT_SENSOR_PIN = 7;
+  const uint8_t DHT_SENSOR_PIN = 5;
   SimpleDHT11 dht11(DHT_SENSOR_PIN);
 }
 
