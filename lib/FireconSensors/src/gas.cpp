@@ -2,7 +2,7 @@
 
 namespace
 {
-  const uint8_t GAS_SENSOR_DIGITAL_PIN = 4;
+  const uint8_t GAS_SENSOR_DIGITAL_PIN = 5;
   const uint8_t GAS_SENSOR_ANALOG_PIN = A0;
 }
 
