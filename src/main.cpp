@@ -1,5 +1,4 @@
 #include <Arduino.h>
-#include <SoftwareSerial.h>
 
 #include "dht.hpp"
 #include "flame.hpp"
@@ -7,16 +6,9 @@
 
 unsigned long startTime = 0;
 
-uint8_t RX_PIN = 10,
-        TX_PIN = 11;
-
-SoftwareSerial esp(RX_PIN, TX_PIN); // RX, TX (Nano D10 = RX, D11 = TX)
-
 void setup()
 {
-  // Initialize serial communication for debugging
-  Serial.begin(115200);
-  esp.begin(9600);
+  Serial.begin(9600);
 
   Serial.println("Initializing flame sensors...");
   initFlameSensors();
@@ -25,6 +17,12 @@ void setup()
   initGasSensor();
 
   Serial.println("Arduino NANO is ready.");
+}
+
+void logSerial(const String &label, const String &value)
+{
+  Serial.print(label);
+  Serial.println(value);
 }
 
 void loop()
@@ -44,28 +42,19 @@ void loop()
     uint8_t flameDetected = getFlameSensorReading();
     uint8_t hasDHTReading = getDHTSensorReading(&temperature, &humidity);
 
-    esp.print("flameDetected=");
-    esp.println(flameDetected);
-    esp.print("gasDetected=");
-    esp.println(gasSensorDigitalValue);
-    esp.print("gasSensorValue=");
-    esp.println(gasSensorAnalogValue);
+    logSerial("flameDetected=", String(flameDetected));
+    logSerial("gasDetected=", String(gasSensorDigitalValue));
+    logSerial("gasSensorValue=", String(gasSensorAnalogValue));
 
     if (hasDHTReading)
     {
-      esp.print("temperature=");
-      esp.println(temperature);
-      esp.print("humidity=");
-      esp.println(humidity);
+      logSerial("temperature=", String(temperature));
+      logSerial("humidity=", String(humidity));
     }
     else
     {
-      esp.print("temperature=");
-      esp.println("error");
-      esp.print("humidity=");
-      esp.println("error");
+      logSerial("temperature=", "error");
+      logSerial("humidity=", "error");
     }
-
-    esp.println("---");
   }
 }
